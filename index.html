@@ -3,140 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For My Ray</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <title>A Special Quiz for Ray</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --pink: #ffafbd;
-            --rose: #ffc3a0;
-            --dark-pink: #d4418e;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, var(--pink), var(--rose));
-            font-family: 'Montserrat', sans-serif;
-            overflow: hidden;
-            text-align: center;
-        }
-
-        .container {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.3);
+        :root { --pink: #ffafbd; --rose: #ffc3a0; --dark-pink: #d4418e; }
+        body { margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center; background: linear-gradient(135deg, var(--pink), var(--rose)); font-family: 'Montserrat', sans-serif; overflow: hidden; }
+        
+        .container { 
+            background: rgba(255, 255, 255, 0.9); 
+            padding: 2.5rem; 
+            border-radius: 20px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
+            text-align: center; 
+            max-width: 450px; 
+            width: 90%;
             z-index: 10;
-            max-width: 400px;
+            transition: all 0.5s ease;
         }
 
-        h1 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 3rem;
-            color: var(--dark-pink);
-            margin-bottom: 10px;
+        h1 { font-family: 'Dancing Script', cursive; color: var(--dark-pink); font-size: 2.5rem; margin-top: 0; }
+        p { color: #444; font-size: 1.1rem; line-height: 1.5; }
+        
+        input[type="text"], select {
+            width: 80%; padding: 10px; margin: 20px 0; border: 2px solid var(--pink); border-radius: 10px; font-family: 'Montserrat'; outline: none;
         }
 
-        p {
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 30px;
+        .btn {
+            padding: 12px 25px; border: none; border-radius: 25px; cursor: pointer; font-weight: bold; transition: 0.3s;
+            background: var(--dark-pink); color: white; box-shadow: 0 4px 10px rgba(212, 65, 142, 0.2);
         }
 
-        .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        button {
-            padding: 12px 30px;
-            font-size: 1rem;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: transform 0.2s;
-            font-weight: bold;
-        }
-
-        #yesBtn {
-            background-color: var(--dark-pink);
-            color: white;
-            box-shadow: 0 4px 15px rgba(212, 65, 142, 0.3);
-        }
-
-        #noBtn {
-            background-color: white;
-            color: var(--dark-pink);
-            position: relative;
-        }
-
-        .heart {
-            position: absolute;
-            color: rgba(255, 255, 255, 0.5);
-            animation: float 6s linear infinite;
-            z-index: 1;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
-        }
+        .btn:hover { transform: scale(1.05); }
+        .hidden { display: none; }
+        .heart { position: absolute; color: rgba(255, 255, 255, 0.6); animation: float 5s linear infinite; z-index: 1; pointer-events: none; }
+        @keyframes float { 0% { transform: translateY(110vh); opacity: 1; } 100% { transform: translateY(-10vh); opacity: 0; } }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Hi Ray,</h1>
-        <p>Even with all the miles between us, my heart is always right where you are. After all these years, you're still the one.</p>
-        <p><strong>Will you be my Valentine?</strong></p>
-        
-        <div class="buttons">
-            <button id="yesBtn" onclick="celebrate()">Yes!</button>
-            <button id="noBtn" onmouseover="moveButton()">No</button>
-        </div>
+<div class="container" id="quiz-box">
+    <div id="step0">
+        <h1>Hi Ray! ❤️</h1>
+        <p>I have a very important question to ask you but before that I need to see how well you know "us."</p>
+        <button class="btn" onclick="nextStep(1)">Start</button>
     </div>
 
-    <script>
-        // Create floating hearts
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
-            heart.style.animationDuration = Math.random() * 3 + 3 + 's';
-            document.body.appendChild(heart);
-            
-            setTimeout(() => heart.remove(), 6000);
-        }
-        setInterval(createHeart, 300);
+    <div id="step1" class="hidden">
+        <p>How many years have we been together now?</p>
+        <input type="text" id="ans1" placeholder="Enter a number...">
+        <br><button class="btn" onclick="checkStep(1, '4')">Next</button>
+    </div>
 
-        // Make the "No" button run away
-        function moveButton() {
-            const btn = document.getElementById('noBtn');
-            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
-            btn.style.position = 'absolute';
-            btn.style.left = x + 'px';
-            btn.style.top = y + 'px';
-        }
+    <div id="step2" class="hidden">
+        <p>What color shirt was I wearing when you first said you liked me? </p>
+        <input type="text" id="ans2" placeholder="Hint: Think cool colors...">
+        <br><button class="btn" onclick="checkStep(2, 'blue')">Next</button>
+    </div>
 
-        // Success message
-        function celebrate() {
-            const container = document.querySelector('.container');
-            container.innerHTML = `
-                <h1>Yay! ❤️</h1>
-                <p>I can't wait to see you again, Ray. You've made me the happiest person alive!</p>
-                <p style="font-size: 0.8rem;">Counting down the days...</p>
-            `;
+    <div id="step3" class="hidden">
+        <p>Our first date (Feb 13th, 2021)... where did we go?</p>
+        <select id="ans3">
+            <option value="">-- Choose one --</option>
+            <option value="mall">The Mall</option>
+            <option value="beach">The Beach</option>
+            <option value="sixth avenue"> Wayanad</option>
+            <option value="park">The Park</option>
+        </select>
+        <br><button class="btn" onclick="checkStep(3, 'beach', 'sixth avenue')">Check Answers</button>
+    </div>
+
+    <div id="step4" class="hidden">
+        <h1>Your Score: <span id="scoreDisplay">0</span>/3</h1>
+        <p id="feedbackText"></p>
+        <button class="btn" onclick="nextStep(5)"> It doesn't Rayyy , I have a question for YOU...</button>
+    </div>
+
+    <div id="step5" class="hidden">
+        <h1>Ray... ❤️</h1>
+        <p>Long distance is just a test to see how far love can travel. And no matter where we are we love each other so much and I know I have found my person I want to spend my life with.</p>
+        <p><strong>Will you be my Valentine?</strong></p>
+        <div style="display:flex; justify-content:center; gap:15px; position:relative;">
+            <button class="btn" id="yesBtn" onclick="celebrate()">YES</button>
+            <button class="btn" id="noBtn" onmouseover="runAway()" style="background:#fff; color:var(--dark-pink);">NO</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let score = 0;
+
+    function nextStep(step) {
+        document.querySelectorAll('#quiz-box > div').forEach(div => div.classList.add('hidden'));
+        document.getElementById('step' + step).classList.remove('hidden');
+    }
+
+    function checkStep(step, correctVal, altVal = "") {
+        let input = document.getElementById('ans' + step).value.toLowerCase().trim();
+        if (input.includes(correctVal) || (altVal && input.includes(altVal))) {
+            score++;
         }
-    </script>
+        
+        if (step < 3) nextStep(step + 1);
+        else showGrading();
+    }
+
+    function showGrading() {
+        nextStep(4);
+        document.getElementById('scoreDisplay').innerText = score;
+        let feedback = "";
+        if (score === 3) feedback = "Wow, a perfect score! You really do love me! 😍";
+        else if (score >= 1) feedback = "Not bad, Ray! A little rusty, but your heart is in the right place. 😂";
+        else feedback = "0/3? Honestly, I'm impressed you remembered my name! Good thing you're cute. ❤️";
+        document.getElementById('feedbackText').innerText = feedback;
+    }
+
+    function runAway() {
+        const btn = document.getElementById('noBtn');
+        btn.style.position = 'fixed';
+        btn.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+        btn.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+    }
+
+    function celebrate() {
+        document.getElementById('step5').innerHTML = `<h1>YAY! ❤️</h1><p>I love you Ray! Can't wait to bridge the distance soon.</p>`;
+        for(let i=0; i<50; i++) setTimeout(createHeart, i * 100);
+    }
+
+    function createHeart() {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.innerHTML = '❤️';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.fontSize = Math.random() * 20 + 15 + 'px';
+        heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+        document.body.appendChild(heart);
+    }
+    setInterval(createHeart, 400);
+</script>
 </body>
 </html>
